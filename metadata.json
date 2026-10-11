@@ -1,0 +1,6 @@
+{
+  "name": "Sunshine Squares - Handmade Crochet Store",
+  "description": "Handmade crochet bags, flowers, keychains, and cozy home decor handcrafted with love by siblings in India. Order prepaid or Cash on Delivery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
