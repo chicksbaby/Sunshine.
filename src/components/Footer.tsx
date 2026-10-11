@@ -27,15 +27,15 @@ export const Footer: React.FC = () => {
 
   const instagramPosts = [
     {
-      img: '/src/assets/images/strawberry_keychain_1791710017265.jpg',
+      img: '/images/strawberry-keychain.jpg',
       caption: 'Strawberry Keychains stitched with love 🍓'
     },
     {
-      img: '/src/assets/images/white_flower_wristlet_1791710028581.jpg',
+      img: '/images/white-flower-wristlet.jpg',
       caption: 'White Flower Wristlets on warm linen 🌼'
     },
     {
-      img: '/src/assets/images/double_flower_charm_1791710043189.jpg',
+      img: '/images/double-flower-hanging-charm.jpg',
       caption: 'Double Flower Hanging Charms for sunny spaces ✨'
     }
   ];
@@ -83,6 +83,12 @@ export const Footer: React.FC = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src.includes('/src/assets/images/')) {
+                      target.src = target.src.replace('/src/assets/images/', '/images/');
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-[#684431]/70 opacity-0 group-hover:opacity-100 transition-opacity p-2.5 flex items-center justify-center text-center">
                   <p className="text-xs text-white leading-tight font-sans">

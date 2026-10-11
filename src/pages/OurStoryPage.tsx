@@ -32,9 +32,15 @@ export const OurStoryPage: React.FC = () => {
             <div className="md:col-span-5">
               <div className="aspect-square rounded-2xl overflow-hidden bg-amber-50 border-4 border-[#FFF8EF] shadow-md -rotate-2">
                 <img
-                  src="/src/assets/images/double_flower_charm_1791710043189.jpg"
+                  src="/images/double-flower-hanging-charm.jpg"
                   alt="Handmade crochet flowers and charms"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src.includes('/src/assets/images/')) {
+                      target.src = target.src.replace('/src/assets/images/', '/images/');
+                    }
+                  }}
                 />
               </div>
             </div>

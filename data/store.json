@@ -8,7 +8,7 @@
       "price": 149,
       "category": "Crochet Keychains",
       "images": [
-        "/src/assets/images/strawberry_keychain_1791710017265.jpg"
+        "/images/strawberry-keychain.jpg"
       ],
       "colors": [
         {
@@ -41,7 +41,7 @@
       "price": 179,
       "category": "Crochet Accessories",
       "images": [
-        "/src/assets/images/white_flower_wristlet_1791710028581.jpg"
+        "/images/white-flower-wristlet.jpg"
       ],
       "colors": [
         {
@@ -74,7 +74,7 @@
       "price": 249,
       "category": "Hanging Charms",
       "images": [
-        "/src/assets/images/double_flower_charm_1791710043189.jpg"
+        "/images/double-flower-hanging-charm.jpg"
       ],
       "colors": [
         {

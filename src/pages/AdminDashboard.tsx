@@ -60,7 +60,7 @@ export const AdminDashboard: React.FC = () => {
     category: 'Crochet Keychains',
     price: 149,
     description: '',
-    images: ['/src/assets/images/strawberry_keychain_1791710017265.jpg'],
+    images: ['/images/strawberry-keychain.jpg'],
     colors: [{ name: 'Pastel Pink', hex: '#F3A59B' }],
     inStock: true,
     stockCount: 15,
@@ -722,7 +722,7 @@ export const AdminDashboard: React.FC = () => {
                     category: 'Crochet Keychains',
                     price: 149,
                     description: '',
-                    images: ['/src/assets/images/strawberry_keychain_1791710017265.jpg'],
+                    images: ['/images/strawberry-keychain.jpg'],
                     colors: [{ name: 'Pastel Pink', hex: '#F3A59B' }],
                     inStock: true,
                     stockCount: 15,
@@ -742,7 +742,17 @@ export const AdminDashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {products.map(prod => (
                 <div key={prod.id} className="p-4 rounded-2xl border border-[#684431]/10 bg-[#FFF8EF] flex gap-3 relative group">
-                  <img src={prod.images[0]} alt="" className="w-18 h-18 rounded-xl object-cover bg-white shrink-0" />
+                  <img 
+                    src={prod.images[0]} 
+                    alt="" 
+                    className="w-18 h-18 rounded-xl object-cover bg-white shrink-0" 
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.includes('/src/assets/images/')) {
+                        target.src = target.src.replace('/src/assets/images/', '/images/');
+                      }
+                    }}
+                  />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-bold text-xs text-[#684431] truncate">{prod.name}</h4>
                     <p className="text-[10px] text-[#D97757] font-semibold">{prod.category}</p>
@@ -1025,6 +1035,12 @@ export const AdminDashboard: React.FC = () => {
                       alt="Preview"
                       referrerPolicy="no-referrer"
                       className="w-16 h-16 rounded-xl object-cover border border-[#684431]/20 shrink-0"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src.includes('/src/assets/images/')) {
+                          target.src = target.src.replace('/src/assets/images/', '/images/');
+                        }
+                      }}
                     />
                   ) : (
                     <div className="w-16 h-16 rounded-xl bg-white border border-dashed border-[#684431]/30 flex items-center justify-center text-xs text-[#684431]/40 shrink-0">
@@ -1053,7 +1069,7 @@ export const AdminDashboard: React.FC = () => {
                     required
                     value={productForm.images?.[0] || ''}
                     onChange={(e) => setProductForm({ ...productForm, images: [e.target.value] })}
-                    placeholder="/src/assets/images/... or https://..."
+                    placeholder="/images/... or https://..."
                     className="w-full px-2.5 py-1.5 rounded-lg border border-[#684431]/20 bg-white text-[11px]"
                   />
                 </div>

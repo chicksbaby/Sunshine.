@@ -94,6 +94,12 @@ export const ProductDetailPage: React.FC = () => {
                 alt={product.name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (target.src.includes('/src/assets/images/')) {
+                    target.src = target.src.replace('/src/assets/images/', '/images/');
+                  }
+                }}
               />
               <span className="absolute top-4 left-4 bg-[#FFF8EF]/90 backdrop-blur-xs text-[#684431] text-xs font-bold px-3 py-1 rounded-full shadow-xs border border-[#684431]/10">
                 100% Handmade ♡
@@ -119,6 +125,12 @@ export const ProductDetailPage: React.FC = () => {
                       alt="" 
                       referrerPolicy="no-referrer" 
                       className="w-full h-full object-cover" 
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src.includes('/src/assets/images/')) {
+                          target.src = target.src.replace('/src/assets/images/', '/images/');
+                        }
+                      }}
                     />
                   </button>
                 ))}

@@ -9,7 +9,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 149,
     category: 'Crochet Keychains',
     images: [
-      '/src/assets/images/strawberry_keychain_1791710017265.jpg'
+      '/images/strawberry-keychain.jpg'
     ],
     colors: [
       { name: 'Pastel Pink & Leaf Green', hex: '#F3A59B' }
@@ -39,7 +39,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 179,
     category: 'Crochet Accessories',
     images: [
-      '/src/assets/images/white_flower_wristlet_1791710028581.jpg'
+      '/images/white-flower-wristlet.jpg'
     ],
     colors: [
       { name: 'Pure White & Natural Cream', hex: '#FFFFFF' }
@@ -69,7 +69,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     price: 249,
     category: 'Hanging Charms',
     images: [
-      '/src/assets/images/double_flower_charm_1791710043189.jpg'
+      '/images/double-flower-hanging-charm.jpg'
     ],
     colors: [
       { name: 'Soft Pink & Forest Green', hex: '#F3A59B' }

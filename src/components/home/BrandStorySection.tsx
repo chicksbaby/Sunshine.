@@ -22,9 +22,15 @@ export const BrandStorySection: React.FC = () => {
               <div className="bg-[#FFF8EF] p-4 pb-8 rounded-2xl shadow-md border border-[#684431]/10 -rotate-1 hover:rotate-0 transition-transform duration-300 max-w-sm w-full">
                 <div className="aspect-4/3 rounded-xl overflow-hidden bg-amber-50">
                   <img
-                    src="/src/assets/images/white_flower_wristlet_1791710028581.jpg"
+                    src="/images/white-flower-wristlet.jpg"
                     alt="Handcrafted crochet pieces with milk cotton yarn"
                     className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.includes('/src/assets/images/')) {
+                        target.src = target.src.replace('/src/assets/images/', '/images/');
+                      }
+                    }}
                   />
                 </div>
                 <div className="pt-3 text-center">

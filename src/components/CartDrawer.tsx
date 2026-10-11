@@ -163,6 +163,12 @@ export const CartDrawer: React.FC = () => {
                     alt={item.name}
                     referrerPolicy="no-referrer"
                     className="w-20 h-20 object-cover rounded-xl bg-[#FFF8EF] shrink-0"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.includes('/src/assets/images/')) {
+                        target.src = target.src.replace('/src/assets/images/', '/images/');
+                      }
+                    }}
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start gap-2">

@@ -622,6 +622,12 @@ export const CheckoutPage: React.FC = () => {
                       src={item.image}
                       alt={item.name}
                       className="w-14 h-14 rounded-xl object-cover bg-[#FFF8EF] shrink-0"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src.includes('/src/assets/images/')) {
+                          target.src = target.src.replace('/src/assets/images/', '/images/');
+                        }
+                      }}
                     />
                     <div className="flex-1 min-w-0">
                       <h4 className="font-semibold text-[#684431] truncate">{item.name}</h4>

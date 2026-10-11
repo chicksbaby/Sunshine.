@@ -20,11 +20,18 @@ async function startServer() {
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
   // Statically serve uploaded and catalog crochet images
-  const imagesDir = path.resolve(__dirname, 'src', 'assets', 'images');
-  if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir, { recursive: true });
+  const publicImagesDir = path.resolve(__dirname, 'public', 'images');
+  if (!fs.existsSync(publicImagesDir)) {
+    fs.mkdirSync(publicImagesDir, { recursive: true });
   }
-  app.use('/src/assets/images', express.static(imagesDir));
+  const srcImagesDir = path.resolve(__dirname, 'src', 'assets', 'images');
+  if (!fs.existsSync(srcImagesDir)) {
+    fs.mkdirSync(srcImagesDir, { recursive: true });
+  }
+
+  app.use('/images', express.static(publicImagesDir));
+  app.use('/src/assets/images', express.static(publicImagesDir));
+  app.use('/src/assets/images', express.static(srcImagesDir));
 
   // Helper auth middleware for Admin
   const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
@@ -100,19 +107,29 @@ async function startServer() {
       const ext = mimeType.includes('png') ? 'png' : mimeType.includes('webp') ? 'webp' : 'jpg';
       const buffer = Buffer.from(matches[2], 'base64');
 
-      const uploadsDir = path.resolve(__dirname, 'src', 'assets', 'images');
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
+      const publicUploadsDir = path.resolve(__dirname, 'public', 'images');
+      if (!fs.existsSync(publicUploadsDir)) {
+        fs.mkdirSync(publicUploadsDir, { recursive: true });
+      }
+      const srcUploadsDir = path.resolve(__dirname, 'src', 'assets', 'images');
+      if (!fs.existsSync(srcUploadsDir)) {
+        fs.mkdirSync(srcUploadsDir, { recursive: true });
       }
 
       const safeName = (filename || 'product_photo')
         .replace(/[^a-zA-Z0-9_-]/g, '_')
         .toLowerCase();
       const generatedFilename = `${safeName}_${Date.now()}.${ext}`;
-      const filePath = path.join(uploadsDir, generatedFilename);
 
-      fs.writeFileSync(filePath, buffer);
-      const publicUrl = `/src/assets/images/${generatedFilename}`;
+      fs.writeFileSync(path.join(publicUploadsDir, generatedFilename), buffer);
+      fs.writeFileSync(path.join(srcUploadsDir, generatedFilename), buffer);
+
+      const distImagesDir = path.resolve(__dirname, 'dist', 'images');
+      if (fs.existsSync(distImagesDir)) {
+        fs.writeFileSync(path.join(distImagesDir, generatedFilename), buffer);
+      }
+
+      const publicUrl = `/images/${generatedFilename}`;
 
       res.json({ success: true, url: publicUrl });
     } catch (err: any) {

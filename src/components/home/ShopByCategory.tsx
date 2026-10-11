@@ -17,21 +17,21 @@ export const ShopByCategory: React.FC = () => {
     {
       name: 'Crochet Keychains',
       label: 'Crochet Keychains',
-      image: '/src/assets/images/strawberry_keychain_1791710017265.jpg',
+      image: '/images/strawberry-keychain.jpg',
       tagline: 'Handcrafted berry & bell charms',
       count: 'Pocket Cuties'
     },
     {
       name: 'Crochet Accessories',
       label: 'Crochet Accessories',
-      image: '/src/assets/images/white_flower_wristlet_1791710028581.jpg',
+      image: '/images/white-flower-wristlet.jpg',
       tagline: 'Braided floral wristlets & accents',
       count: 'Everyday Wear'
     },
     {
       name: 'Hanging Charms',
       label: 'Hanging Charms',
-      image: '/src/assets/images/double_flower_charm_1791710043189.jpg',
+      image: '/images/double-flower-hanging-charm.jpg',
       tagline: 'Tiered floral charms for mirrors & pegs',
       count: 'Delicate Vines'
     }
@@ -88,6 +88,12 @@ export const ShopByCategory: React.FC = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (target.src.includes('/src/assets/images/')) {
+                      target.src = target.src.replace('/src/assets/images/', '/images/');
+                    }
+                  }}
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-[#684431]/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               </div>

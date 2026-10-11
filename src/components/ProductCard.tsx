@@ -33,6 +33,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             loading="lazy"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (target.src.includes('/src/assets/images/')) {
+                target.src = target.src.replace('/src/assets/images/', '/images/');
+              }
+            }}
           />
 
           {/* Genuine Authentic Handmade Tag */}

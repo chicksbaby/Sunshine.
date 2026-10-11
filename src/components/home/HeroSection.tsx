@@ -72,10 +72,16 @@ export const HeroSection: React.FC = () => {
                 {/* Main Hero Photo Container with scrapbook border */}
                 <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-white rotate-1 hover:rotate-0 transition-transform duration-500">
                   <img
-                    src="/src/assets/images/strawberry_keychain_1791710017265.jpg"
+                    src="/images/strawberry-keychain.jpg"
                     alt="Sunshine Squares handmade crochet creations"
                     referrerPolicy="no-referrer"
                     className="w-full h-80 sm:h-96 object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (target.src.includes('/src/assets/images/')) {
+                        target.src = target.src.replace('/src/assets/images/', '/images/');
+                      }
+                    }}
                   />
                   
                   {/* Scrapbook Tape Detail */}
