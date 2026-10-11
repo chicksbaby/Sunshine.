@@ -1,0 +1,109 @@
+import { Product, StoreSettings } from '../types/index.js';
+
+export const INITIAL_PRODUCTS: Product[] = [
+  {
+    id: 'prod-1',
+    name: 'Strawberry Keychain',
+    slug: 'strawberry-keychain',
+    description: 'Handcrafted crochet strawberry keychain featuring a soft pink bell blossom berry, stitched green leafy calyx, and sturdy hanging loop. Lovingly handmade stitch-by-stitch.',
+    price: 149,
+    category: 'Crochet Keychains',
+    images: [
+      '/images/strawberry-keychain.jpg'
+    ],
+    colors: [
+      { name: 'Pastel Pink & Leaf Green', hex: '#F3A59B' }
+    ],
+    inStock: true,
+    stockCount: 15,
+    codEligible: true,
+    estimatedDispatch: '2-3 business days',
+    makingTime: '30 minutes',
+    costBreakdown: {
+      woolCost: 33.33,
+      labourCost: 20,
+      packagingCost: 25,
+      petrolAllocation: 11.67,
+      totalCost: 90,
+      profitMargin: 59
+    },
+    yarnType: '100% Soft Cotton-Acrylic Yarn',
+    dimensions: 'Approx. 2.5" length with hanging loop',
+    careInstructions: 'Spot clean gently with damp cloth and mild soap. Air dry in shade.'
+  },
+  {
+    id: 'prod-2',
+    name: 'White Flower Wristlet',
+    slug: 'white-flower-wristlet',
+    description: 'Handmade white crochet flower wristlet featuring a textured dimensional layered blossom and a durable braided wrist strap. Designed to comfortably fit your wrist while keeping keys secure.',
+    price: 179,
+    category: 'Crochet Accessories',
+    images: [
+      '/images/white-flower-wristlet.jpg'
+    ],
+    colors: [
+      { name: 'Pure White & Natural Cream', hex: '#FFFFFF' }
+    ],
+    inStock: true,
+    stockCount: 12,
+    codEligible: true,
+    estimatedDispatch: '2-3 business days',
+    makingTime: '45 minutes',
+    costBreakdown: {
+      woolCost: 50,
+      labourCost: 30,
+      packagingCost: 25,
+      petrolAllocation: 11.67,
+      totalCost: 116.67,
+      profitMargin: 62.33
+    },
+    yarnType: 'Premium Milk Cotton Yarn',
+    dimensions: 'Flower: 2.8" diameter, Strap length: 6.5"',
+    careInstructions: 'Hand wash gently in cool water. Lay flat on towel to dry.'
+  },
+  {
+    id: 'prod-3',
+    name: 'Double Flower Hanging Charm',
+    slug: 'double-flower-hanging-charm',
+    description: 'Artisanal double flower hanging charm featuring two tiered pink bell blossoms gracefully suspended from leafy green crochet stems. Ideal for car mirrors, wall pegs, or bag decor.',
+    price: 249,
+    category: 'Hanging Charms',
+    images: [
+      '/images/double-flower-hanging-charm.jpg'
+    ],
+    colors: [
+      { name: 'Soft Pink & Forest Green', hex: '#F3A59B' }
+    ],
+    inStock: true,
+    stockCount: 10,
+    codEligible: true,
+    estimatedDispatch: '2-3 business days',
+    makingTime: '90 minutes',
+    costBreakdown: {
+      woolCost: 100,
+      labourCost: 60,
+      packagingCost: 25,
+      petrolAllocation: 11.67,
+      totalCost: 196.67,
+      profitMargin: 52.33
+    },
+    yarnType: 'High-grade Combed Milk Cotton',
+    dimensions: 'Total hanging length: approx. 8.5 inches',
+    careInstructions: 'Spot clean only. Keep dry to preserve yarn structure.'
+  }
+];
+
+export const INITIAL_SETTINGS: StoreSettings = {
+  freeShippingThreshold: 999,
+  standardShippingFee: 60,
+  codHandlingFee: 40,
+  codMaxOrderLimit: 3000,
+  codDisabledPincodes: ['110000', '400000'],
+  razorpayKeyId: 'rzp_test_sunshine_mock_demo',
+  razorpayKeySecretConfigured: false,
+  whatsappNumber: '+919876543210',
+  instagramHandle: '@sunshinesquares.in',
+  businessEmail: 'hello@sunshinesquares.in',
+  businessAddress: 'Sunshine Squares Studio, Indiranagar, Bengaluru, KA 560038',
+  allowDirectOtpVerification: true
+};

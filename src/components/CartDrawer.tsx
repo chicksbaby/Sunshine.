@@ -10,8 +10,11 @@ import {
   Sparkles, 
   Tag, 
   CheckCircle2, 
-  Truck 
+  Truck,
+  MessageCircle
 } from 'lucide-react';
+import { resolveProductImage, DEFAULT_FALLBACK_IMAGE } from '../utils/imageUtils.js';
+import { createWhatsAppCartOrderUrl } from '../utils/whatsapp.js';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -159,14 +162,14 @@ export const CartDrawer: React.FC = () => {
                   className="bg-white p-3.5 rounded-2xl border border-[#684431]/10 shadow-xs flex gap-3 relative group"
                 >
                   <img
-                    src={item.image}
+                    src={resolveProductImage(item.image)}
                     alt={item.name}
                     referrerPolicy="no-referrer"
                     className="w-20 h-20 object-cover rounded-xl bg-[#FFF8EF] shrink-0"
                     onError={(e) => {
                       const target = e.currentTarget;
-                      if (target.src.includes('/src/assets/images/')) {
-                        target.src = target.src.replace('/src/assets/images/', '/images/');
+                      if (target.src !== DEFAULT_FALLBACK_IMAGE) {
+                        target.src = DEFAULT_FALLBACK_IMAGE;
                       }
                     }}
                   />
@@ -296,20 +299,37 @@ export const CartDrawer: React.FC = () => {
                 </div>
               </div>
 
-              {/* Proceed to Checkout Button */}
-              <button
-                onClick={() => {
-                  setIsCartOpen(false);
-                  setActivePage('checkout');
-                }}
-                className="w-full py-3.5 bg-[#D97757] hover:bg-[#E76F51] text-white font-medium text-sm rounded-xl shadow-md flex items-center justify-center gap-2 transition-transform transform active:scale-98"
-              >
-                <span>Proceed to Checkout</span>
-                <ArrowRight size={17} />
-              </button>
+              {/* Order via WhatsApp and Proceed to Checkout Buttons */}
+              <div className="space-y-2">
+                <a
+                  href={createWhatsAppCartOrderUrl({
+                    items: cart,
+                    subtotal: estimatedTotal,
+                    whatsappNumber: settings?.whatsappNumber,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsCartOpen(false)}
+                  className="w-full py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm rounded-xl shadow-md flex items-center justify-center gap-2 transition-transform transform active:scale-98 text-center"
+                >
+                  <MessageCircle size={18} />
+                  <span>Order Basket on WhatsApp</span>
+                </a>
 
-              <p className="text-center text-[11px] text-[#684431]/60">
-                🔒 Safe & encrypted • Razorpay UPI or Cash on Delivery (COD)
+                <button
+                  onClick={() => {
+                    setIsCartOpen(false);
+                    setActivePage('checkout');
+                  }}
+                  className="w-full py-3 bg-[#684431] hover:bg-[#D97757] text-white font-medium text-xs rounded-xl shadow-xs flex items-center justify-center gap-2 transition-transform transform active:scale-98"
+                >
+                  <span>Fill Delivery Address & Checkout</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
+
+              <p className="text-center text-[10px] text-[#684431]/65 leading-tight">
+                💬 WhatsApp orders are treated as enquiries until confirmed by seller
               </p>
             </div>
           )}

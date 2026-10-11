@@ -12,9 +12,11 @@ import {
   Banknote,
   CreditCard
 } from 'lucide-react';
+import { resolveProductImage, DEFAULT_FALLBACK_IMAGE } from '../utils/imageUtils.js';
+import { getCleanWhatsAppNumber } from '../utils/whatsapp.js';
 
 export const OrderConfirmationPage: React.FC = () => {
-  const { lastConfirmedOrder, setActivePage } = useStore();
+  const { lastConfirmedOrder, setActivePage, settings } = useStore();
 
   if (!lastConfirmedOrder) {
     return (
@@ -32,9 +34,10 @@ export const OrderConfirmationPage: React.FC = () => {
 
   const order = lastConfirmedOrder;
   const isCod = order.paymentMethod === 'cod';
+  const whatsappPhone = getCleanWhatsAppNumber(settings?.whatsappNumber);
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Sunshine Squares! I just placed order #${order.orderNumber} (${order.items.map(i => i.name).join(', ')}). Delivery to ${order.customer.city}, ${order.customer.pinCode}. Total: ₹${order.total}. Looking forward to receiving it! ♡`
+    `Hello Sunshine Squares! I just placed order #${order.orderNumber} (${order.items.map(i => i.name).join(', ')}). Delivery to ${order.customer.city || ''}, ${order.customer.pinCode || ''}. Total: ₹${order.total}. Looking forward to receiving it! ♡`
   );
 
   return (
@@ -105,7 +108,7 @@ export const OrderConfirmationPage: React.FC = () => {
           {/* Direct WhatsApp Confirmation Button */}
           <div className="pt-2">
             <a
-              href={`https://wa.me/919876543210?text=${whatsappMessage}`}
+              href={`https://wa.me/${whatsappPhone}?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs sm:text-sm font-semibold rounded-2xl shadow-sm transition-colors"
@@ -127,7 +130,17 @@ export const OrderConfirmationPage: React.FC = () => {
               {order.items.map((item, idx) => (
                 <div key={idx} className="flex items-center justify-between gap-3 text-xs">
                   <div className="flex items-center gap-3 min-w-0">
-                    <img src={item.image} alt="" className="w-12 h-12 rounded-xl object-cover bg-[#FFF8EF]" />
+                    <img
+                      src={resolveProductImage(item.image)}
+                      alt=""
+                      className="w-12 h-12 rounded-xl object-cover bg-[#FFF8EF]"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (target.src !== DEFAULT_FALLBACK_IMAGE) {
+                          target.src = DEFAULT_FALLBACK_IMAGE;
+                        }
+                      }}
+                    />
                     <div className="min-w-0">
                       <p className="font-semibold text-[#684431] truncate">{item.name}</p>
                       {item.selectedColor && (

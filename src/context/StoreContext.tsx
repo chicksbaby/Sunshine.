@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Product, CartItem, Order, StoreSettings, CustomerReview, Coupon } from '../types/index.js';
+import { INITIAL_PRODUCTS, INITIAL_SETTINGS } from '../data/initialProducts.js';
 
 interface StoreContextType {
   products: Product[];
@@ -35,8 +36,8 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(true);
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('sunshine_cart');
@@ -50,7 +51,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [settings, setSettings] = useState<StoreSettings | null>(null);
+  const [settings, setSettings] = useState<StoreSettings | null>(INITIAL_SETTINGS);
   const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [adminToken, setAdminToken] = useState<string | null>(() => {
@@ -148,14 +149,16 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const fetchProducts = async () => {
     try {
-      setIsLoadingProducts(true);
       const res = await fetch('/api/products');
       if (res.ok) {
         const data = await res.json();
-        setProducts(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setProducts(data);
+        }
       }
     } catch (err) {
-      console.error('Failed to fetch products', err);
+      // Backend not running (e.g. static Vercel deployment), keep initial products
+      console.warn('Backend unavailable, using initial product data', err);
     } finally {
       setIsLoadingProducts(false);
     }
@@ -166,10 +169,13 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const res = await fetch('/api/settings');
       if (res.ok) {
         const data = await res.json();
-        setSettings(data);
+        if (data && typeof data === 'object') {
+          setSettings(data);
+        }
       }
     } catch (err) {
-      console.error('Failed to fetch settings', err);
+      // Keep initial settings
+      console.warn('Backend unavailable, using initial settings', err);
     }
   };
 

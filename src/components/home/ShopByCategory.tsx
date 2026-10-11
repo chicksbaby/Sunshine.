@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore } from '../../context/StoreContext.js';
 import { ArrowRight } from 'lucide-react';
+import { resolveProductImage, DEFAULT_FALLBACK_IMAGE } from '../../utils/imageUtils.js';
 
 interface CategoryItem {
   name: string;
@@ -83,15 +84,15 @@ export const ShopByCategory: React.FC = () => {
             >
               <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-[#FFF8EF] mb-3">
                 <img
-                  src={cat.image}
+                  src={resolveProductImage(cat.image)}
                   alt={cat.label}
                   loading="lazy"
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
                     const target = e.currentTarget;
-                    if (target.src.includes('/src/assets/images/')) {
-                      target.src = target.src.replace('/src/assets/images/', '/images/');
+                    if (target.src !== DEFAULT_FALLBACK_IMAGE) {
+                      target.src = DEFAULT_FALLBACK_IMAGE;
                     }
                   }}
                 />

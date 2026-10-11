@@ -62,6 +62,7 @@ const MainContent: React.FC = () => {
         );
 
       case 'shop':
+      case 'products':
       case 'collections':
         return <ShopPage />;
 

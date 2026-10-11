@@ -12,8 +12,11 @@ import {
   Coins, 
   CheckCircle2, 
   ShoppingBag,
-  Sparkles
+  Sparkles,
+  MessageCircle
 } from 'lucide-react';
+import { resolveProductImage, DEFAULT_FALLBACK_IMAGE } from '../utils/imageUtils.js';
+import { createWhatsAppProductOrderUrl } from '../utils/whatsapp.js';
 
 export const ProductDetailPage: React.FC = () => {
   const { 
@@ -21,7 +24,8 @@ export const ProductDetailPage: React.FC = () => {
     products, 
     addToCart, 
     setActivePage, 
-    setIsCartOpen 
+    setIsCartOpen,
+    settings
   } = useStore();
 
   const product = products.find(p => p.id === selectedProductId || p.slug === selectedProductId) || products[0];
@@ -90,14 +94,14 @@ export const ProductDetailPage: React.FC = () => {
             {/* Main Active Photo */}
             <div className="relative aspect-square w-full rounded-3xl overflow-hidden bg-[#FFF8EF] border border-[#684431]/10 shadow-inner group">
               <img
-                src={product.images[activeImageIndex] || product.images[0]}
+                src={resolveProductImage(product.images[activeImageIndex] || product.images[0])}
                 alt={product.name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  if (target.src.includes('/src/assets/images/')) {
-                    target.src = target.src.replace('/src/assets/images/', '/images/');
+                  if (target.src !== DEFAULT_FALLBACK_IMAGE) {
+                    target.src = DEFAULT_FALLBACK_IMAGE;
                   }
                 }}
               />
@@ -121,14 +125,14 @@ export const ProductDetailPage: React.FC = () => {
                     }`}
                   >
                     <img 
-                      src={img} 
+                      src={resolveProductImage(img)} 
                       alt="" 
                       referrerPolicy="no-referrer" 
                       className="w-full h-full object-cover" 
                       onError={(e) => {
                         const target = e.currentTarget;
-                        if (target.src.includes('/src/assets/images/')) {
-                          target.src = target.src.replace('/src/assets/images/', '/images/');
+                        if (target.src !== DEFAULT_FALLBACK_IMAGE) {
+                          target.src = DEFAULT_FALLBACK_IMAGE;
                         }
                       }}
                     />
@@ -261,23 +265,45 @@ export const ProductDetailPage: React.FC = () => {
 
             </div>
 
-            {/* Action Buttons: Add to Cart & Buy Now */}
+            {/* Action Buttons: Add to Cart & Buy Now on WhatsApp */}
             <div className="pt-4 border-t border-[#684431]/10 space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href={createWhatsAppProductOrderUrl({
+                    productName: product.name,
+                    price: product.price,
+                    quantity,
+                    selectedColor,
+                    customNote,
+                    whatsappNumber: settings?.whatsappNumber,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-sm font-bold rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 text-center"
+                >
+                  <MessageCircle size={18} />
+                  <span>Buy Now (₹{product.price * quantity})</span>
+                </a>
+
                 <button
+                  type="button"
                   onClick={handleAddToCart}
                   className="w-full py-3.5 bg-white border-2 border-[#684431] text-[#684431] hover:bg-[#FFF2DE] text-sm font-semibold rounded-2xl shadow-xs transition-colors flex items-center justify-center gap-2"
                 >
                   <ShoppingBag size={16} />
                   <span>Add to Cart ♡</span>
                 </button>
+              </div>
 
-                <button
-                  onClick={handleBuyNow}
-                  className="w-full py-3.5 bg-[#D97757] hover:bg-[#E76F51] text-white text-sm font-semibold rounded-2xl shadow-md transition-colors flex items-center justify-center gap-2"
-                >
-                  <span>Buy Now (₹{product.price * quantity})</span>
-                </button>
+              {/* Order enquiry note */}
+              <div className="p-3 bg-[#FFF8EF] rounded-2xl border border-[#F7C948]/50 text-xs text-[#684431]/80 space-y-1">
+                <div className="flex items-center gap-1.5 font-semibold text-[#684431]">
+                  <MessageCircle size={14} className="text-[#25D366]" />
+                  <span>Direct WhatsApp Order Enquiry</span>
+                </div>
+                <p className="text-[11px] leading-relaxed">
+                  Clicking <strong>Buy Now</strong> opens WhatsApp with this piece, quantity, shade, and note prefilled. The order is a customer enquiry until Sunshine Squares confirms item availability, dispatch timing, and payment.
+                </p>
               </div>
 
               {/* Trust highlights */}

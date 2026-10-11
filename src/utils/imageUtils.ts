@@ -3,8 +3,12 @@
  * across production static hosting (e.g. Vercel) and development environments.
  */
 
+export const DEFAULT_FALLBACK_IMAGE = '/images/strawberry-keychain.jpg';
+
 export function resolveProductImage(url?: string): string {
-  if (!url) return '';
+  if (!url || typeof url !== 'string' || !url.trim()) {
+    return DEFAULT_FALLBACK_IMAGE;
+  }
   
   const trimmed = url.trim();
   
